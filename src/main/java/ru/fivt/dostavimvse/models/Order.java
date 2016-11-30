@@ -22,12 +22,34 @@ public class Order implements Serializable {
     private Set<Product> products = new HashSet<>();
 
     @Column(name = "START_DATE", columnDefinition = "TIMESTAMP")
-//    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp startDate;
+
+    public Integer getStartVertex() {
+        return startVertex;
+    }
+
+    public void setStartVertex(Integer startVertex) {
+        this.startVertex = startVertex;
+    }
+
+    public Integer getEndVertex() {
+        return endVertex;
+    }
+
+    public void setEndVertex(Integer endVertex) {
+        this.endVertex = endVertex;
+    }
+
+    @Column(name = "START_VERTEX", nullable = false)
+    private Integer startVertex;
+
+    @Column(name = "END_VERTEX", nullable = false)
+    private Integer endVertex;
 
     @ManyToOne()
     @JoinColumn(name = "CLIENT_ID", nullable = false)
     private Client client;
+
 
 
     public Timestamp getStartDate() {

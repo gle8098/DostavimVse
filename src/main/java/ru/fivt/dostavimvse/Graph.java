@@ -2,6 +2,7 @@ package ru.fivt.dostavimvse;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import ru.fivt.dostavimvse.models.Leg;
 
 import java.util.List;
 
@@ -18,9 +19,9 @@ public class Graph {
     private Graph() {
     }
 
-    public List getLegs() {
+    public List<Leg> getLegs() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Query query = session.createQuery("FROM Leg");
-        return query.list();
+        return (List<Leg>)query.list();
     }
 }
