@@ -8,12 +8,14 @@
 <p th:text="'Hello !'" ></p>
 
 <!--/*@thymesVar id="client" type="ru.fivt.dostavimvse.models.Client"*/-->
-<p th:text="${client.getId()}"></p>
 
 <div class="orders">
     <div th:each="order : ${client.getOrders()}">
+        <p th:text="${client.getOrders().size()}"></p>
+        <p th:text="${order.getId()}"></p>
         <p th:text="${order.getStartDate()}"></p>
-        <p th:text="${order.getStartVertex()}"></p>
+        <p th:text="${order.getProducts().size()}"></p>
+        <p th:text="${order.getOverallWeight()}"></p>
     </div>
 </div>
 </body>
