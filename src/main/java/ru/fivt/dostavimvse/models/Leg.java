@@ -24,6 +24,14 @@ public class Leg implements Serializable {
     @Column(name = "MAX_WEIGHT")
     private Double maxWeight;
 
+
+    @Column(name = "BASE_PRICE")
+    private Double basePrice;
+
+    @Column(name="LEG_TYPE", columnDefinition = "enum('AVIA';'TRAIN')")
+    @Enumerated(EnumType.STRING)
+    private LegType legType;
+
     public Integer getId() {
         return id;
     }
@@ -58,5 +66,21 @@ public class Leg implements Serializable {
 
     public Double getSendTime() {
         return null;
+    }
+
+    public Double getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(Double basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public LegType getLegType() {
+        return legType;
+    }
+
+    public void setLegType(LegType legType) {
+        this.legType = legType;
     }
 }

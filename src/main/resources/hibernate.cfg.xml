@@ -17,6 +17,8 @@
         <mapping class="ru.fivt.dostavimvse.models.Client" />
         <mapping class="ru.fivt.dostavimvse.models.Order" />
         <mapping class="ru.fivt.dostavimvse.models.Product" />
+        <mapping class="ru.fivt.dostavimvse.models.Route" />
+        <mapping class="ru.fivt.dostavimvse.models.RouteLeg" />
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

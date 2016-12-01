@@ -24,6 +24,21 @@ public class Order implements Serializable {
     @Column(name = "START_DATE", columnDefinition = "TIMESTAMP")
     private Timestamp startDate;
 
+    @Column(name = "ORDER_TYPE", columnDefinition = "enum('TIME';'PRICE)")
+    @Enumerated(EnumType.STRING)
+    private OrderType orderType;
+
+    @Column(name = "START_VERTEX", nullable = false)
+    private Integer startVertex;
+
+    @Column(name = "END_VERTEX", nullable = false)
+    private Integer endVertex;
+
+    @ManyToOne()
+    @JoinColumn(name = "CLIENT_ID", nullable = false)
+    private Client client;
+
+
     public Integer getStartVertex() {
         return startVertex;
     }
@@ -40,15 +55,7 @@ public class Order implements Serializable {
         this.endVertex = endVertex;
     }
 
-    @Column(name = "START_VERTEX", nullable = false)
-    private Integer startVertex;
 
-    @Column(name = "END_VERTEX", nullable = false)
-    private Integer endVertex;
-
-    @ManyToOne()
-    @JoinColumn(name = "CLIENT_ID", nullable = false)
-    private Client client;
 
 
 
@@ -95,5 +102,13 @@ public class Order implements Serializable {
             sum += product.getWeight();
         }
         return sum;
+    }
+
+    public OrderType getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(OrderType orderType) {
+        this.orderType = orderType;
     }
 }
