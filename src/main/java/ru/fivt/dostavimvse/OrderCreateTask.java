@@ -18,12 +18,23 @@ public class OrderCreateTask implements Runnable {
 
     @Override
     public void run() {
+        OptimalSolver solver = null;
         if (order.getOrderType() == OrderType.TIME) {
             solver = new OptimalTimeSolver();
-            Route route = solver.buildOptimalRoute(order);
-            Session session = HibernateSessionFactory.getSessionFactory().openSession();
-
-            session.close();
+        } else if (order.getOrderType() == OrderType.PRICE) {
+            solver = new OptimalPriceSolver();
+        } else {
+            return;
         }
+        Route route = solver.buildOptimalRoute(order);
+        order.setRoute(route);
+        route.setOrder(order);
+
+        Session session = HibernateSessionFactory.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.save(route);
+
+        session.beginTransaction().commit();
     }
+
 }

@@ -21,8 +21,8 @@ public class Route {
         return order;
     }
 
-    @ManyToOne()
-    @JoinColumn(name = "ORDER_ID", nullable = false)
+    @OneToOne()
+    @JoinColumn(name = "ORDER_ID", nullable = false, referencedColumnName = "ID")
     private Order order;
 
     public void setLegSet(Set<RouteLeg> legSet) {
@@ -54,5 +54,9 @@ public class Route {
             }
         }
         return orderedLegs;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

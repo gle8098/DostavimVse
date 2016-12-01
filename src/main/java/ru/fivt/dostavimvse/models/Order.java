@@ -38,6 +38,9 @@ public class Order implements Serializable {
     @JoinColumn(name = "CLIENT_ID", nullable = false)
     private Client client;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "order")
+    private Route route;
+
 
     public Integer getStartVertex() {
         return startVertex;
@@ -110,5 +113,13 @@ public class Order implements Serializable {
 
     public void setOrderType(OrderType orderType) {
         this.orderType = orderType;
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
     }
 }
