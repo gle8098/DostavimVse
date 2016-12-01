@@ -17,6 +17,10 @@ public class Route {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    public Order getOrder() {
+        return order;
+    }
+
     @ManyToOne()
     @JoinColumn(name = "ORDER_ID", nullable = false)
     private Order order;
@@ -26,9 +30,13 @@ public class Route {
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "route", cascade = CascadeType.ALL)
-    Set<RouteLeg> legSet = new HashSet<>();
+    private Set<RouteLeg> legSet = new HashSet<>();
 
-    List<RouteLeg> getLegs() {
+    public Set<RouteLeg> getLegSet() {
+        return legSet;
+    }
+
+    public List<RouteLeg> getLegs() {
         int startVertex = order.getStartVertex();
         int endVertex = order.getEndVertex();
 
