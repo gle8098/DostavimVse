@@ -34,7 +34,7 @@ public class Product implements Serializable {
     }
 
     public Double getWeight() {
-        return getWeight();
+        return weight;
     }
 
     public void setPrice(Double price) {
