@@ -28,7 +28,7 @@ public class Main {
         try {
             session.beginTransaction();
 
-            Client firstClient = session.get(Client.class, 5); // session.get(Client.class, 3);
+            Client firstClient = new Client(); // session.get(Client.class, 3);
 
             Order order = new Order();
 
@@ -42,6 +42,8 @@ public class Main {
 
             order.setProducts(products);
             order.setStartDate(Timestamp.valueOf(LocalDateTime.now()));
+            order.setStartVertex(0);
+            order.setEndVertex(1);
 
             order.setClient(firstClient);
             Set<Order> orders = firstClient.getOrders();

@@ -1,10 +1,12 @@
 package ru.fivt.dostavimvse;
 
+import ch.qos.logback.core.db.dialect.MySQLDialect;
 import org.hibernate.Session;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.fivt.dostavimvse.models.Client;
 
 /**
@@ -14,16 +16,17 @@ import ru.fivt.dostavimvse.models.Client;
 public class MainController {
 
 
-    @RequestMapping(value="/orders", method = RequestMethod.GET)
-    public String getOrderHistory(Model model) {
+    @RequestMapping(value="/orders/{id}", method = RequestMethod.GET)
+    public ModelAndView getOrderHistory(@PathVariable("id") int clientId, Model model) {
+        ModelAndView modelAndView = new ModelAndView("getorderhistory");
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
-        Client client = session.get(Client.class, 5);
+        Client client = session.get(Client.class, clientId);
 
-        model.addAttribute("client", client);
+        modelAndView.addObject("client", client);
 
         session.close();
-        return "getorderhistory";
+        return modelAndView;
     }
 
     @RequestMapping(value="/legs", method = RequestMethod.GET)

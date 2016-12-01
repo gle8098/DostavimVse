@@ -13,6 +13,7 @@
 <div class="orders">
     <div th:each="order : ${client.getOrders()}">
         <p th:text="${order.getStartDate()}"></p>
+        <p th:text="${order.getStartVertex()}"></p>
     </div>
 </div>
 </body>
