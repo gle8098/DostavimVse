@@ -25,35 +25,15 @@ public class Route {
     @JoinColumn(name = "ORDER_ID", nullable = false, referencedColumnName = "ID")
     private Order order;
 
-    public void setLegSet(Set<RouteLeg> legSet) {
-        this.legSet = legSet;
+    public void setLegs(Set<RouteLeg> legSet) {
+        this.legs = legSet;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "route", cascade = CascadeType.ALL)
-    private Set<RouteLeg> legSet = new HashSet<>();
+    private Set<RouteLeg> legs = new HashSet<>();
 
-    public Set<RouteLeg> getLegSet() {
-        return legSet;
-    }
-
-    public List<RouteLeg> getLegs() {
-        int startVertex = order.getStartVertex();
-        int endVertex = order.getEndVertex();
-
-
-        List<RouteLeg> orderedLegs = new LinkedList<>();
-
-        int currentVertex = startVertex;
-
-        while (currentVertex != endVertex) {
-            for (RouteLeg leg: legSet) {
-                if (leg.getLeg().getStartVertex() == currentVertex) {
-                    orderedLegs.add(leg);
-                    break;
-                }
-            }
-        }
-        return orderedLegs;
+    public Set<RouteLeg> getLegs() {
+        return legs;
     }
 
     public void setOrder(Order order) {

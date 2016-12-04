@@ -1,20 +1,8 @@
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.exception.ConstraintViolationException;
-import org.hibernate.metadata.ClassMetadata;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import ru.fivt.dostavimvse.HibernateSessionFactory;
 import ru.fivt.dostavimvse.models.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -67,10 +55,10 @@ public class Main {
             routeLeg.setLeg(session.get(Leg.class, 1));
             routeLeg.setRoute(route);
 
-            Set<RouteLeg> routeLegSet = route.getLegSet();
+            Set<RouteLeg> routeLegSet = route.getLegs();
             routeLegSet.add(routeLeg);
 
-            route.setLegSet(routeLegSet);
+            route.setLegs(routeLegSet);
 
 
             // Route route = session.get(Route.class, 2);

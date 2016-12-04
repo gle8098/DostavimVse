@@ -21,13 +21,13 @@ public class RouteIterator implements Iterator<RouteLeg>{
 
     public RouteIterator(Route route) {
         this.route = route;
-        this.routeLegSet = route.getLegSet();
+        this.routeLegSet = route.getLegs();
         this.currentVertex = route.getOrder().getStartVertex();
     }
 
     public RouteIterator(Route route, @NotNull RouteLeg leg) {
         this.route = route;
-        this.routeLegSet = route.getLegSet();
+        this.routeLegSet = route.getLegs();
         this.currentVertex = leg.getLeg().getStartVertex();
     }
 

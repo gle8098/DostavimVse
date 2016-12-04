@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.fivt.dostavimvse.models.Client;
+import ru.fivt.dostavimvse.models.Order;
 
 /**
  * Created by akhtyamovpavel on 30.11.16.
@@ -27,6 +28,24 @@ public class MainController {
 
         session.close();
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
+    public ModelAndView getOrder(@PathVariable("id") int orderId, Model model) {
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        try {
+            Order order = session.get(Order.class, orderId);
+            ModelAndView modelAndView = new ModelAndView("getorder");
+            modelAndView.addObject("order", order);
+            return modelAndView;
+        } catch (Exception e) {
+            ModelAndView modelAndView = new ModelAndView("errororder");
+            return modelAndView;
+        } finally {
+            session.close();
+        }
     }
 
     @RequestMapping(value="/", method=RequestMethod.GET)

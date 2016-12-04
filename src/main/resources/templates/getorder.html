@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Get Legs Test</title>
+</head>
+<body>
+
+<!--/*@thymesVar id="order" type="ru.fivt.dostavimvse.models.Order"*/-->
+<div class="order-info">
+    <div class="order_id">
+        Заказ <span th:text="${order.getId()}"></span>
+    </div>
+    <div class="order_start">
+        Создан: <span th:text="${order.getStartDate()}"></span>
+    </div>
+    <div class="order_start_vertex">
+        Начало: <span th:text="${order.getStartVertex()}"></span>
+    </div>
+
+    <div class="order_end_vertex">
+        Конец: <span th:text="${order.getEndVertex()}"></span>
+    </div>
+
+    <div class="order_products">
+        Продукты:
+        <div th:each="product: ${order.getProducts()}">
+            <div class="product">
+                Вес: <span th:text="${product.getWeight()}"></span>
+                Цена: <span th:text="${product.getPrice()}"></span>
+            </div>
+        </div>
+        <div>
+            Данные о заказе
+            <div class="route">
+                <div class="route_leg">
+                    <div th:each="routeLeg: ${order.getRoute().getLegs()}">
+                        Время начала: <span th:text="${routeLeg.getStartTime()}"></span>
+                        Время конца: <span th:text="${routeLeg.getEndTime()}"></span>
+                        Начало: <span th:text="${routeLeg.getLeg().getStartVertex()}"></span>
+                        Конец: <span th:text="${routeLeg.getLeg().getEndVertex()}"></span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
