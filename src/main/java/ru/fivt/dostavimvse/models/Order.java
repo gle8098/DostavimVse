@@ -1,6 +1,7 @@
 package ru.fivt.dostavimvse.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.*;
@@ -28,9 +29,11 @@ public class Order implements Serializable {
     @Enumerated(EnumType.STRING)
     private OrderType orderType;
 
+    @Min(0)
     @Column(name = "START_VERTEX", nullable = false)
     private Integer startVertex;
 
+    @Min(0)
     @Column(name = "END_VERTEX", nullable = false)
     private Integer endVertex;
 

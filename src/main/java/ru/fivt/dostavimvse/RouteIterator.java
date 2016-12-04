@@ -3,6 +3,7 @@ package ru.fivt.dostavimvse;
 import ru.fivt.dostavimvse.models.Route;
 import ru.fivt.dostavimvse.models.RouteLeg;
 
+import javax.validation.constraints.NotNull;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.Set;
 /**
  * Created by akhtyamovpavel on 02.12.16.
  */
+
 public class RouteIterator implements Iterator<RouteLeg>{
     private Route route;
     private Set<RouteLeg> routeLegSet;
@@ -21,6 +23,12 @@ public class RouteIterator implements Iterator<RouteLeg>{
         this.route = route;
         this.routeLegSet = route.getLegSet();
         this.currentVertex = route.getOrder().getStartVertex();
+    }
+
+    public RouteIterator(Route route, @NotNull RouteLeg leg) {
+        this.route = route;
+        this.routeLegSet = route.getLegSet();
+        this.currentVertex = leg.getLeg().getStartVertex();
     }
 
     @Override

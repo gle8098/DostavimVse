@@ -1,6 +1,7 @@
 package ru.fivt.dostavimvse.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import java.io.Serializable;
 
 /**
@@ -15,9 +16,11 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @DecimalMin("0.0")
     @Column(name = "PRICE")
     private Double price;
 
+    @DecimalMin("0.0")
     @Column(name = "WEIGHT")
     private Double weight;
 

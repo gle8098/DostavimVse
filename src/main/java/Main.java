@@ -3,9 +3,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import ru.fivt.dostavimvse.HibernateSessionFactory;
 import ru.fivt.dostavimvse.models.*;
 
@@ -52,10 +54,14 @@ public class Main {
 
             session.beginTransaction();
             Leg leg = new Leg();
-            leg.setStartVertex(0);
-            leg.setEndVertex(0);
-            leg.setMaxWeight(0.8);
-            leg.setLegType(LegType.TRAIN);
+            try {
+                leg.setStartVertex(0);
+                leg.setEndVertex(0);
+                leg.setMaxWeight(-0.8);
+                leg.setLegType(LegType.TRAIN);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             session.save(leg);
             session.getTransaction().commit();

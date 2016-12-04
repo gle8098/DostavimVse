@@ -1,6 +1,8 @@
 package ru.fivt.dostavimvse.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 
 /**
@@ -15,16 +17,19 @@ public class Leg implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Min(0)
     @Column(name = "START_VERTEX")
     private Integer startVertex;
 
+    @Min(0)
     @Column(name = "END_VERTEX")
     private Integer endVertex;
 
+    @DecimalMin("0.0")
     @Column(name = "MAX_WEIGHT")
     private Double maxWeight;
 
-
+    @DecimalMin("0.0")
     @Column(name = "BASE_PRICE")
     private Double basePrice;
 
