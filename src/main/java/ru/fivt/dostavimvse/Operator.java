@@ -42,7 +42,7 @@ public class Operator {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.beginTransaction();
 
-        order.setStartDate(Timestamp.valueOf(LocalDateTime.now()));
+        order.setStartDate(LocalDateTime.now());
 //        order.setStatus(OrderStatus.WAIT_CREATE);
     }
 }

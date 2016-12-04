@@ -53,16 +53,17 @@ public class Main {
 //            session.getTransaction().commit();
 
             session.beginTransaction();
-            Order order = session.get(Order.class, 5);
+            Order order = session.get(Order.class, 3);
 
             Route route = new Route();
 
             order.setRoute(route);
             route.setOrder(order);
 
+            Leg leg = session.get(Leg.class, 1);
             RouteLeg routeLeg = new RouteLeg();
             routeLeg.setStartTime(LocalDateTime.now());
-            routeLeg.setEndTime(LocalDateTime.now());
+            routeLeg.setEndTime(LocalDateTime.now().plusSeconds(leg.getSendTime()));
             routeLeg.setLeg(session.get(Leg.class, 1));
             routeLeg.setRoute(route);
 
@@ -71,7 +72,9 @@ public class Main {
 
             route.setLegSet(routeLegSet);
 
-            session.save(route);
+
+            // Route route = session.get(Route.class, 2);
+            session.saveOrUpdate(order);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());

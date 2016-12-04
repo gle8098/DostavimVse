@@ -25,6 +25,7 @@ public class Order implements Serializable {
     @Column(name = "START_DATE")
     private LocalDateTime startDate;
 
+
     @Column(name = "ORDER_TYPE", columnDefinition = "enum('TIME';'PRICE)")
     @Enumerated(EnumType.STRING)
     private OrderType orderType;

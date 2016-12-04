@@ -37,6 +37,10 @@ public class Leg implements Serializable {
     @Enumerated(EnumType.STRING)
     private LegType legType;
 
+    @Min(1)
+    @Column(name = "SEND_TIME")
+    private Integer sendTime;
+
     public Integer getId() {
         return id;
     }
@@ -69,9 +73,6 @@ public class Leg implements Serializable {
         this.maxWeight = maxWeight;
     }
 
-    public Double getSendTime() {
-        return null;
-    }
 
     public Double getBasePrice() {
         return basePrice;
@@ -88,4 +89,13 @@ public class Leg implements Serializable {
     public void setLegType(LegType legType) {
         this.legType = legType;
     }
+
+    public void setSendTime(Integer sendTime) {
+        this.sendTime = sendTime;
+    }
+
+    public Integer getSendTime() {
+        return sendTime;
+    }
+
 }
