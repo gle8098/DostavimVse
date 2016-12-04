@@ -5,23 +5,37 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+
 Проект Доставим Все
 
-<button id="get-order-history">История заказов</button>
+<p><button id="get-order-history">История заказов</button></p>
+
+<p><button id="create-order-button">Создать заказ</button></p>
+
+
+
 
 <script>
     function BrowserClient() {
 
         BrowserClient.prototype.getOrderHistoryButton = document.getElementById("get-order-history");
+        BrowserClient.prototype.requestOrderButton = document.getElementById("create-order-button");
 
         BrowserClient.prototype.getOrderHistory = function () {
-            window.location.replace('./orders/5');
-        }
+            window.location = '/orders/5';
+        };
+
+        BrowserClient.prototype.requestOrder = function () {
+            window.location = '/create/';
+        };
     }
 
     var client = new BrowserClient();
     client.getOrderHistoryButton.onclick = function() {
         client.getOrderHistory();
+    };
+    client.requestOrderButton.onclick = function() {
+        client.requestOrder();
     };
 </script>
 </body>

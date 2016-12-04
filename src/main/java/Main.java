@@ -53,17 +53,25 @@ public class Main {
 //            session.getTransaction().commit();
 
             session.beginTransaction();
-            Leg leg = new Leg();
-            try {
-                leg.setStartVertex(0);
-                leg.setEndVertex(0);
-                leg.setMaxWeight(-0.8);
-                leg.setLegType(LegType.TRAIN);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Order order = session.get(Order.class, 5);
 
-            session.save(leg);
+            Route route = new Route();
+
+            order.setRoute(route);
+            route.setOrder(order);
+
+            RouteLeg routeLeg = new RouteLeg();
+            routeLeg.setStartTime(LocalDateTime.now());
+            routeLeg.setEndTime(LocalDateTime.now());
+            routeLeg.setLeg(session.get(Leg.class, 1));
+            routeLeg.setRoute(route);
+
+            Set<RouteLeg> routeLegSet = route.getLegSet();
+            routeLegSet.add(routeLeg);
+
+            route.setLegSet(routeLegSet);
+
+            session.save(route);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());

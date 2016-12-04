@@ -3,7 +3,7 @@ package ru.fivt.dostavimvse.models;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -22,8 +22,8 @@ public class Order implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL)
     private Set<Product> products = new HashSet<>();
 
-    @Column(name = "START_DATE", columnDefinition = "TIMESTAMP")
-    private Timestamp startDate;
+    @Column(name = "START_DATE")
+    private LocalDateTime startDate;
 
     @Column(name = "ORDER_TYPE", columnDefinition = "enum('TIME';'PRICE)")
     @Enumerated(EnumType.STRING)
@@ -65,11 +65,11 @@ public class Order implements Serializable {
 
 
 
-    public Timestamp getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Timestamp startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
