@@ -69,6 +69,7 @@ public class Main {
             System.out.println(e.getMessage());
         } finally {
             session.close();
+            HibernateSessionFactory.shutdown();
         }
     }
 }

@@ -16,8 +16,11 @@ public class DatabaseCrawler implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("Called");
         ThreadPoolExecutor executor = Operator.getInstance().getChangeLegExecutor();
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        session.close();
+        System.out.println("Session closed");
 //        Query query = session.createQuery("FROM Order order WHERE order.orderStatus = :orderStatus");
 //        query.setString("orderStatus", OrderStatus.WAIT_CHANGE.toString());
 //

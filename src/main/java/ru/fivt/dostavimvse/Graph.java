@@ -16,12 +16,15 @@ public class Graph {
         return ourInstance;
     }
 
+    public List<Leg> legs = null;
+
     private Graph() {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        Query query = session.createQuery("FROM Leg");
+        legs = (List<Leg>)query.list();
     }
 
     public List<Leg> getLegs() {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        Query query = session.createQuery("FROM Leg");
-        return (List<Leg>)query.list();
+        return legs;
     }
 }

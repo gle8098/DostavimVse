@@ -12,7 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "CLIENT")
-public class Client implements Serializable {
+public class Client implements Serializable, IClient {
 
 
 
@@ -27,6 +27,21 @@ public class Client implements Serializable {
 
     public Set<Order> getOrders() {
         return this.orders;
+    }
+
+    @Override
+    public void requestCreateOrder(Order order) {
+
+    }
+
+    @Override
+    public void receiveOrder(Order order) {
+
+    }
+
+    @Override
+    public Order getOrderById(Integer id) {
+        return null;
     }
 
     public void setOrders(Set<Order> orders) {

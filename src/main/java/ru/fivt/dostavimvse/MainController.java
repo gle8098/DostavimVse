@@ -29,6 +29,11 @@ public class MainController {
         return modelAndView;
     }
 
+    @RequestMapping(value="/", method=RequestMethod.GET)
+    public ModelAndView getMainPage() {
+        return new ModelAndView("main");
+    }
+
     @RequestMapping(value="/legs", method = RequestMethod.GET)
     public String getLegs(Model model) {
         model.addAttribute("legs", Graph.getInstance().getLegs());

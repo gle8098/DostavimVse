@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DostavimVse</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+Проект Доставим Все
+
+<button id="get-order-history">История заказов</button>
+
+<script>
+    function BrowserClient() {
+
+        BrowserClient.prototype.getOrderHistoryButton = document.getElementById("get-order-history");
+
+        BrowserClient.prototype.getOrderHistory = function () {
+            window.location.replace('./orders/5');
+        }
+    }
+
+    var client = new BrowserClient();
+    client.getOrderHistoryButton.onclick = function() {
+        client.getOrderHistory();
+    };
+</script>
+</body>
+</html>
