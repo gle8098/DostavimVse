@@ -1,10 +1,12 @@
 package ru.fivt.dostavimvse;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import ru.fivt.dostavimvse.models.Order;
 import ru.fivt.dostavimvse.models.OrderStatus;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -16,18 +18,21 @@ public class DatabaseCrawler implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Called");
-        ThreadPoolExecutor executor = Operator.getInstance().getChangeLegExecutor();
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        session.close();
+
+        Operator operator = Operator.getInstance();
+
+        Query query = session.createQuery("SELECT o FROM Order o INNER JOIN o.route AS r LEFT JOIN r.currentLeg AS  rl WHERE o.orderStatus = :order_status " +
+                "AND (r.currentLeg is NULL OR rl.endTime < :end_time)");
+        query.setParameter("order_status", OrderStatus.MOVING);
+        query.setParameter("end_time", LocalDateTime.now());
+
+
+        List<Order> orders = (List<Order>)query.list();
+
+        orders.forEach(operator::changeRouteLeg);
+
         System.out.println("Session closed");
-//        Query query = session.createQuery("FROM Order order WHERE order.orderStatus = :orderStatus");
-//        query.setString("orderStatus", OrderStatus.WAIT_CHANGE.toString());
-//
-//        List queryList = query.list();
-//        for (Object object : queryList) {
-//            Order order = (Order)object;
-//            executor.execute(new OrderChangeLegTask(order));
-//        }
+        session.close();
     }
 }

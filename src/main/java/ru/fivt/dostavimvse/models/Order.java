@@ -22,13 +22,18 @@ public class Order implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL)
     private Set<Product> products = new HashSet<>();
 
+
     @Column(name = "START_DATE")
     private LocalDateTime startDate;
 
 
-    @Column(name = "ORDER_TYPE", columnDefinition = "enum('TIME';'PRICE)")
+    @Column(name = "ORDER_TYPE", columnDefinition = "enum('TIME';'PRICE')")
     @Enumerated(EnumType.STRING)
     private OrderType orderType;
+
+    @Column(name = "ORDER_STATUS", columnDefinition = "enum('WAIT_CREATE';'WAIT_CHANGE';'MOVING';'READY';'COMPLETED')")
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
     @Min(0)
     @Column(name = "START_VERTEX", nullable = false)
@@ -41,6 +46,18 @@ public class Order implements Serializable {
     @ManyToOne()
     @JoinColumn(name = "CLIENT_ID", nullable = false)
     private Client client;
+
+    public Client getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(Client receiver) {
+        this.receiver = receiver;
+    }
+
+    @ManyToOne()
+    @JoinColumn(name = "RECEIVER_ID", nullable = false)
+    private Client receiver;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "order")
     private Route route;
@@ -125,5 +142,13 @@ public class Order implements Serializable {
 
     public void setRoute(Route route) {
         this.route = route;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 }

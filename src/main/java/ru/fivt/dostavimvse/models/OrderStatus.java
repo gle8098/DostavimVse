@@ -5,7 +5,6 @@ package ru.fivt.dostavimvse.models;
  */
 public enum OrderStatus {
     WAIT_CREATE("WAIT_CREATE"),
-    STOPPED("STOPPED"),
     WAIT_CHANGE("WAIT_CHANGE"),
     MOVING("MOVING"),
     READY("READY"),

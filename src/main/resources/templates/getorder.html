@@ -34,7 +34,7 @@
             Данные о заказе
             <div class="route">
                 <div class="route_leg">
-                    <div th:each="routeLeg: ${order.getRoute().getLegs()}">
+                    <div th:each="routeLeg: ${order.getRoute().getRouteLegs()}">
                         Время начала: <span th:text="${routeLeg.getStartTime()}"></span>
                         Время конца: <span th:text="${routeLeg.getEndTime()}"></span>
                         Начало: <span th:text="${routeLeg.getLeg().getStartVertex()}"></span>

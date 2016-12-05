@@ -1,8 +1,6 @@
 package ru.fivt.dostavimvse;
 
-import ch.qos.logback.core.db.dialect.MySQLDialect;
 import org.hibernate.Session;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +16,7 @@ public class MainController {
 
 
     @RequestMapping(value="/orders/{id}", method = RequestMethod.GET)
-    public ModelAndView getOrderHistory(@PathVariable("id") int clientId, Model model) {
+    public ModelAndView getOrderHistory(@PathVariable("id") int clientId) {
         ModelAndView modelAndView = new ModelAndView("getorderhistory");
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
@@ -31,11 +29,9 @@ public class MainController {
     }
 
     @RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
-    public ModelAndView getOrder(@PathVariable("id") int orderId, Model model) {
+    public ModelAndView getOrder(@PathVariable("id") int orderId) {
 
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-
-        try {
+        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Order order = session.get(Order.class, orderId);
             ModelAndView modelAndView = new ModelAndView("getorder");
             modelAndView.addObject("order", order);
@@ -43,9 +39,12 @@ public class MainController {
         } catch (Exception e) {
             ModelAndView modelAndView = new ModelAndView("errororder");
             return modelAndView;
-        } finally {
-            session.close();
         }
+    }
+
+    @RequestMapping(value = "/receiveOrder/{id}", method = RequestMethod.POST)
+    public ModelAndView receiveOrder(@PathVariable("id") int orderId) {
+        return new ModelAndView();
     }
 
     @RequestMapping(value="/", method=RequestMethod.GET)

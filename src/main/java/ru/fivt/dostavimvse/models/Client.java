@@ -12,9 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "CLIENT")
-public class Client implements Serializable, IClient {
-
-
+public class Client implements Serializable {
 
     @Id
     @Column(name = "ID", unique = true, nullable = false)
@@ -24,24 +22,31 @@ public class Client implements Serializable, IClient {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "client", cascade = CascadeType.ALL)
     private Set<Order> orders = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "receiver", cascade = CascadeType.ALL)
+    private Set<Order> directedOrders = new HashSet<>();
+
 
     public Set<Order> getOrders() {
         return this.orders;
     }
 
-    @Override
     public void requestCreateOrder(Order order) {
 
     }
 
-    @Override
-    public void receiveOrder(Order order) {
-
+    public Order receiveOrder(Order order) {
+        if (order.getReceiver().getId().equals(getId())) {
+            order.setOrderStatus(OrderStatus.COMPLETED);
+            return order;
+        } else {
+            return null;
+        }
     }
 
-    @Override
-    public Order getOrderById(Integer id) {
-        return null;
+    public Order getOrder(Integer id) {
+        return orders.stream().filter((Order order) ->
+            order.getId().equals(id)
+        ).findFirst().get();
     }
 
     public void setOrders(Set<Order> orders) {

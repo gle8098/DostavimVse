@@ -1,9 +1,9 @@
 package ru.fivt.dostavimvse;
 
+import ru.fivt.dostavimvse.models.Order;
 import ru.fivt.dostavimvse.models.Route;
 import ru.fivt.dostavimvse.models.RouteLeg;
 
-import javax.validation.constraints.NotNull;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -13,22 +13,24 @@ import java.util.Set;
  */
 
 public class RouteIterator implements Iterator<RouteLeg>{
-    private Route route;
-    private Set<RouteLeg> routeLegSet;
+    private Set<RouteLeg> routeLegs;
 //    private RouteLeg routeLeg;
     private int currentVertex;
     private int endVertex;
 
-    public RouteIterator(Route route) {
-        this.route = route;
-        this.routeLegSet = route.getLegs();
-        this.currentVertex = route.getOrder().getStartVertex();
-    }
-
-    public RouteIterator(Route route, @NotNull RouteLeg leg) {
-        this.route = route;
-        this.routeLegSet = route.getLegs();
-        this.currentVertex = leg.getLeg().getStartVertex();
+    public RouteIterator(Order order, boolean fromStart) {
+        Route route = order.getRoute();
+        this.routeLegs = route.getRouteLegs();
+        if (fromStart) {
+            this.currentVertex = order.getStartVertex();
+        } else {
+            if (route.getCurrentLeg() == null) {
+                this.currentVertex = order.getStartVertex();
+            } else {
+                this.currentVertex = route.getCurrentLeg().getLeg().getEndVertex();
+            }
+        }
+        this.endVertex = order.getEndVertex();
     }
 
     @Override
@@ -41,8 +43,9 @@ public class RouteIterator implements Iterator<RouteLeg>{
         if (!hasNext()) {
             throw new NoSuchElementException("Route iterator finished the end");
         }
-        for (RouteLeg routeLeg: routeLegSet) {
+        for (RouteLeg routeLeg: routeLegs) {
             if (routeLeg.getLeg().getStartVertex() == currentVertex) {
+                currentVertex = routeLeg.getLeg().getEndVertex();
                 return routeLeg;
             }
         }

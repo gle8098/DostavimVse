@@ -2,8 +2,6 @@ package ru.fivt.dostavimvse.models;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,18 +23,32 @@ public class Route {
     @JoinColumn(name = "ORDER_ID", nullable = false, referencedColumnName = "ID")
     private Order order;
 
-    public void setLegs(Set<RouteLeg> legSet) {
-        this.legs = legSet;
-    }
+    @ManyToOne()
+    @JoinColumn(name = "CURRENT_ROUTE_LEG_ID", nullable = true, referencedColumnName = "ID")
+    private RouteLeg currentLeg;
+
+
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "route", cascade = CascadeType.ALL)
-    private Set<RouteLeg> legs = new HashSet<>();
+    private Set<RouteLeg> routeLegs = new HashSet<>();
 
-    public Set<RouteLeg> getLegs() {
-        return legs;
+    public Set<RouteLeg> getRouteLegs() {
+        return routeLegs;
+    }
+
+    public void setRouteLegs(Set<RouteLeg> legSet) {
+        this.routeLegs = legSet;
     }
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public RouteLeg getCurrentLeg() {
+        return currentLeg;
+    }
+
+    public void setCurrentLeg(RouteLeg currentLeg) {
+        this.currentLeg = currentLeg;
     }
 }
