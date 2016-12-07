@@ -12,7 +12,7 @@ import java.util.*;
  * Created by akhtyamovpavel on 30.11.16.
  */
 
-class SortVertex implements Comparable {
+class SortTimeVertex implements Comparable {
     private int fromVertex;
     private double cost;
 
@@ -34,14 +34,14 @@ class SortVertex implements Comparable {
         this.cost = cost;
     }
 
-    SortVertex(int fromVertex, double cost) {
+    SortTimeVertex(int fromVertex, double cost) {
         this.fromVertex = fromVertex;
         this.cost = cost;
     }
 
     @Override
     public int compareTo(Object o) {
-        SortVertex other = (SortVertex)o;
+        SortTimeVertex other = (SortTimeVertex)o;
         if (cost + EPS < other.cost) {
             return -1;
         } else if (cost > other.cost + EPS) {
@@ -100,8 +100,8 @@ public class OptimalTimeSolver implements OptimalSolver {
             usedVertices[index] = false;
         }
 
-        TreeSet<SortVertex> sortVertices = new TreeSet<>();
-        sortVertices.add(new SortVertex(startVertex, 0.0));
+        TreeSet<SortTimeVertex> sortVertices = new TreeSet<>();
+        sortVertices.add(new SortTimeVertex(startVertex, 0.0));
         usedVertices[startVertex] = true;
 
         ArrayList<Leg> answerLegs = new ArrayList<>();
@@ -113,7 +113,7 @@ public class OptimalTimeSolver implements OptimalSolver {
             if (sortVertices.isEmpty()) {
                 continue;
             }
-            SortVertex topVertex = sortVertices.first();
+            SortTimeVertex topVertex = sortVertices.first();
             int currentVertex = topVertex.getFromVertex();
             sortVertices.remove(topVertex);
             usedVertices[currentVertex] = true;
@@ -126,11 +126,11 @@ public class OptimalTimeSolver implements OptimalSolver {
                 if (cost == Double.MAX_VALUE) {
                     continue;
                 }
-                if (!usedVertices[toVertex] && updatedCost + cost + SortVertex.EPS < outputCost) {
+                if (!usedVertices[toVertex] && updatedCost + cost + SortTimeVertex.EPS < outputCost) {
 
-                    sortVertices.remove(new SortVertex(outputLeg.getEndVertex(), outputCost));
+                    sortVertices.remove(new SortTimeVertex(outputLeg.getEndVertex(), outputCost));
                     distances[toVertex] = updatedCost;
-                    sortVertices.add(new SortVertex(outputLeg.getEndVertex(), updatedCost));
+                    sortVertices.add(new SortTimeVertex(outputLeg.getEndVertex(), updatedCost));
                     answerLegs.set(toVertex, outputLeg);
                 }
             }
