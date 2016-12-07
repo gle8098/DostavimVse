@@ -26,9 +26,10 @@ public class OrderController {
                 object.append("code", 400);
                 return object.toString();
             }
-            order.setClient(client);
             order.setReceiver(receiver);
-            Order updatedOrder = Operator.getInstance().createRoute(order);
+            Order packedOrder = client.createOrder(order);
+
+            Order updatedOrder = Operator.getInstance().createRoute(packedOrder);
             JSONObject response = new JSONObject();
             response.append("message", "Order created");
             response.append("code", 200);

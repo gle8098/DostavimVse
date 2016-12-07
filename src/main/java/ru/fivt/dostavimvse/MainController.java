@@ -30,10 +30,14 @@ public class MainController {
     }
 
     @RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
-    public ModelAndView getOrder(@PathVariable("id") int orderId) {
+    public ModelAndView getOrder(@PathVariable("id") int orderId, @RequestParam(name="clientId") int clientId) {
 
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            Order order = session.get(Order.class, orderId);
+            Client client = session.get(Client.class, clientId);
+            if (client == null) {
+                return new ModelAndView("errororder");
+            }
+            Order order = client.getOrder(orderId);
             if (order != null) {
                 ModelAndView modelAndView = new ModelAndView("getorder");
                 modelAndView.addObject("order", order);

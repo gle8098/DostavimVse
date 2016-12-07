@@ -16,14 +16,14 @@
     function BrowserClient() {
 
         BrowserClient.prototype.getOrderHistoryButton = document.getElementById("get-order-history");
-        BrowserClient.prototype.getMainPageButton = document.getElementById("create-order-button");
+        BrowserClient.prototype.getMainPageButton = document.getElementById("main-page");
 
         BrowserClient.prototype.getOrderHistory = function () {
             window.location = '/orders/11';
         };
 
         BrowserClient.prototype.getMainPage = function () {
-            window.location = '/create/11';
+            window.location = '/';
         };
     }
 

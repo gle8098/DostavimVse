@@ -56,4 +56,10 @@ public class Client implements Serializable {
     public Integer getId() {
         return id;
     }
+
+    public Order createOrder(Order order) {
+        order.setOrderStatus(OrderStatus.WAIT_CREATE);
+        order.setClient(this);
+        return order;
+    }
 }

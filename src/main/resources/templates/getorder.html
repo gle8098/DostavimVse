@@ -12,6 +12,10 @@
 </head>
 <body>
 
+<div>
+    <button id="main-page">На главную</button>
+</div>
+
 <!--/*@thymesVar id="order" type="ru.fivt.dostavimvse.models.Order"*/-->
 <div class="order-info">
     <div class="order_id">
@@ -57,5 +61,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    function BrowserClient() {
+
+        BrowserClient.prototype.getMainPageButton = document.getElementById("main-page");
+
+        BrowserClient.prototype.getMainPage = function () {
+            window.location = '/';
+        };
+    }
+
+    var client = new BrowserClient();
+
+    client.getMainPageButton.onclick = function() {
+        client.getMainPage();
+    };
+</script>
 </body>
 </html>
