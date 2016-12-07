@@ -35,7 +35,7 @@
 
 
     <div>
-        <select>
+        <select id="order-type">
             <option th:each="orderType: ${orderTypes}" th:value="${orderType.toString()}" th:text="${orderType.toString()}">Test</option>
         </select>
     </div>
@@ -59,7 +59,7 @@
             BrowserClient.prototype.createOrder = function () {
                 var data = {};
                 data["products"] = [{"weight": 0.8, "price": 0.4}];
-                data["orderType"] = "TIME";
+                data["orderType"] = document.getElementById("order-type").value;
                 data["startVertex"] = document.getElementById("start-vertex-id").value;
                 data["endVertex"] = document.getElementById("end-vertex-id").value;
 
@@ -76,7 +76,7 @@
                     if (data.code != 200) {
                         alert(data.message);
                     } else {
-                        window.location = "/order/" + data.orderId[0];
+                        window.location = "/order/" + data.orderId[0] + "?clientId=11";
                     }
                 });
             }
