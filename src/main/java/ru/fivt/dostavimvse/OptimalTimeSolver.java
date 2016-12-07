@@ -71,11 +71,11 @@ public class OptimalTimeSolver implements OptimalSolver {
         for (Leg leg: legs) {
             int legStartVertex = leg.getStartVertex();
             int legEndVertex = leg.getEndVertex();
-            if (startVertex > maxVertex) {
-                maxVertex = startVertex;
+            if (legStartVertex > maxVertex) {
+                maxVertex = legStartVertex;
             }
-            if (endVertex > maxVertex) {
-                maxVertex = endVertex;
+            if (legEndVertex > maxVertex) {
+                maxVertex = legEndVertex;
             }
         }
 
@@ -110,6 +110,9 @@ public class OptimalTimeSolver implements OptimalSolver {
         }
 
         for (int index = 0; index <= maxVertex; ++index) {
+            if (sortVertices.isEmpty()) {
+                continue;
+            }
             SortVertex topVertex = sortVertices.first();
             int currentVertex = topVertex.getFromVertex();
             sortVertices.remove(topVertex);

@@ -60,15 +60,16 @@
                 var data = {};
                 data["products"] = [{"weight": 0.8, "price": 0.4}];
                 data["orderType"] = "TIME";
-                data["startVertex"] = 0;
-                data["endVertex"] = 9;
+                data["startVertex"] = document.getElementById("start-vertex-id").value;
+                data["endVertex"] = document.getElementById("end-vertex-id").value;
+
 //                data["receiverId"] = 12;
                 var clientId = document.getElementById("clientid").innerText;
                 alert(clientId);
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
-                    url: "/create/11?receiver=" + 12,
+                    url: "/create/11?receiver=" + document.getElementById("receiver-id").value,
                     data: JSON.stringify(data),
                     dataType: "json"
                 }).done(function (data) {
