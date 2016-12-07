@@ -40,17 +40,36 @@
         </select>
     </div>
 
+    <div id="products-field">
+        <div class="product">
+            Вес
+            <input type="text" class="weight-input"/>
+            Цена
+            <input type="text" class="price-input"/>
+        </div>
+    </div>
+
+    <button id="add-product-button">
+        Добавить продукт
+    </button>
+
+    <button id="remove-product-button" style="display: none">
+        Удалить продукт
+    </button>
 
     <button id="send-order">Отправить</button>
 </div>
 <script>
     jQuery(document).ready(function($) {
+        var productsLength = 1;
         function BrowserClient() {
 
             BrowserClient.prototype.sendOrderButton = document.getElementById("send-order");
             BrowserClient.prototype.mainPageButton = document.getElementById("main-page");
 
+            BrowserClient.prototype.addProductButton = document.getElementById("add-product-button");
 
+            BrowserClient.prototype.removeProductButton = document.getElementById("remove-product-button");
 
             BrowserClient.prototype.getMainPage = function () {
                 window.location = '/';
@@ -58,14 +77,30 @@
 
             BrowserClient.prototype.createOrder = function () {
                 var data = {};
-                data["products"] = [{"weight": 0.8, "price": 0.4}];
+//                data["products"] = [{"weight": 0.8, "price": 0.4}];
                 data["orderType"] = document.getElementById("order-type").value;
                 data["startVertex"] = document.getElementById("start-vertex-id").value;
                 data["endVertex"] = document.getElementById("end-vertex-id").value;
 
-//                data["receiverId"] = 12;
+                data["products"] = [];
+
+                var flag = false;
+                $("#products-field").find(".product").each(function(index, element) {
+                    console.log($($(element).find(".price-input").first()).val());
+                    console.log($($(element).find(".weight-input").first()).val());
+                    var price = Number($($(element).find(".price-input").first()).val());
+                    var weight = Number($($(element).find(".weight-input").first()).val());
+                    if (isNaN(price) || isNaN(weight)) {
+                        flag = true;
+                    } else {
+                        data["products"].push({"weight": weight, "price": price});
+                    }
+                });
+                if (flag) {
+                    alert("Введите корректные данные о пользователе!");
+                    return;
+                }
                 var clientId = document.getElementById("clientid").innerText;
-                alert(clientId);
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
@@ -79,6 +114,23 @@
                         window.location = "/order/" + data.orderId[0] + "?clientId=11";
                     }
                 });
+            };
+
+            BrowserClient.prototype.addProduct = function() {
+                $( "#products-field" ).append( '<div class="product"> Вес <input type="text" class="weight-input"/> Цена <input type="text" class="price-input"/></div>');
+                ++productsLength;
+                $("#remove-product-button").css("display", "block");
+            };
+
+            BrowserClient.prototype.removeProduct = function() {
+                if (productsLength >= 2) {
+                    $("#products-field").find(".product").last().remove();
+                    --productsLength;
+                }
+                if (productsLength == 1) {
+                    $("#remove-product-button").css("display", "none");
+                }
+
             }
         }
 
@@ -88,6 +140,14 @@
         };
         client.sendOrderButton.onclick = function() {
             client.createOrder();
+        };
+
+        client.addProductButton.onclick = function() {
+            client.addProduct();
+        };
+
+        client.removeProductButton.onclick = function() {
+            client.removeProduct();
         };
     });
 
