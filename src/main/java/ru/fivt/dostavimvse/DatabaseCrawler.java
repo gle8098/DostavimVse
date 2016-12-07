@@ -22,10 +22,12 @@ public class DatabaseCrawler implements Runnable {
 
         Operator operator = Operator.getInstance();
 
-        Query query = session.createQuery("SELECT o FROM Order o INNER JOIN o.route AS r LEFT JOIN r.currentLeg AS  rl WHERE o.orderStatus = :order_status " +
-                "AND (r.currentLeg is NULL OR rl.endTime < :end_time)");
+        Query query = session.createQuery("SELECT o FROM Order o INNER JOIN o.route AS r LEFT JOIN r.currentLeg AS  rl WHERE (o.orderStatus = :order_status " +
+                "AND (r.currentLeg is NULL OR rl.endTime < :end_time)) OR (o.orderStatus = :order_status_waiting " +
+                "AND r.currentLeg is NULL)");
         query.setParameter("order_status", OrderStatus.MOVING);
         query.setParameter("end_time", LocalDateTime.now());
+        query.setParameter("order_status_waiting", OrderStatus.WAIT_CHANGE);
 
 
         List<Order> orders = (List<Order>)query.list();

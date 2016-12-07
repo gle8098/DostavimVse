@@ -52,11 +52,9 @@ public class MainController {
         return new ModelAndView("main");
     }
 
-    @RequestMapping(value="/legs", method = RequestMethod.GET)
-    public String getLegs(Model model) {
-        model.addAttribute("legs", Graph.getInstance().getLegs());
 
-        return "getlegs";
+    @RequestMapping(value = "/create/{id}", method = RequestMethod.GET)
+    public ModelAndView getCreateOrderPage(@PathVariable("id") int clientId) {
+        return new ModelAndView("createorderpage");
     }
-
 }

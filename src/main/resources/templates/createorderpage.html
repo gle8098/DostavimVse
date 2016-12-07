@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Get Legs Test</title>
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
+
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/1.9.1/jquery.min.js"
+            th:src="@{/webjars/jquery/1.9.1/jquery.min.js}"></script>
+</head>
+<body>
+
+
+<h1>Создать заказ</h1>
+<!--/*@thymesVar id="order" type="ru.fivt.dostavimvse.models.Order"*/-->
+<div class="order-info">
+    <button id="main-page">На главную</button>
+    <!--<div class="order_start">-->
+        <!--Создан: <span th:text="${order.getStartDate()}"></span>-->
+    <!--</div>-->
+    <!--<div class="order_start_vertex">-->
+        <!--Начало: <span th:text="${order.getStartVertex()}"></span>-->
+    <!--</div>-->
+
+    <!--<div class="order_end_vertex">-->
+        <!--Конец: <span th:text="${order.getEndVertex()}"></span>-->
+    <!--</div>-->
+
+    <!--<div class="order_products">-->
+        <!--Продукты:-->
+        <!--<div th:each="product: ${order.getProducts()}">-->
+            <!--<div class="product">-->
+                <!--Вес: <span th:text="${product.getWeight()}"></span>-->
+                <!--Цена: <span th:text="${product.getPrice()}"></span>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--Данные о заказе-->
+            <!--<div class="route">-->
+                <!--<div class="route_leg">-->
+                    <!--<div th:each="routeLeg: ${order.getRoute().getRouteLegs()}">-->
+                        <!--Время начала: <span th:text="${routeLeg.getStartTime()}"></span>-->
+                        <!--Время конца: <span th:text="${routeLeg.getEndTime()}"></span>-->
+                        <!--Начало: <span th:text="${routeLeg.getLeg().getStartVertex()}"></span>-->
+                        <!--Конец: <span th:text="${routeLeg.getLeg().getEndVertex()}"></span>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <button id="send-order">Отправить</button>
+</div>
+<script>
+    jQuery(document).ready(function($) {
+        function BrowserClient() {
+
+            BrowserClient.prototype.sendOrderButton = document.getElementById("send-order");
+            BrowserClient.prototype.mainPageButton = document.getElementById("main-page");
+
+
+
+            BrowserClient.prototype.getMainPage = function () {
+                window.location = '/';
+            };
+
+            BrowserClient.prototype.createOrder = function () {
+                var data = {};
+                data["products"] = [{"weight": 0.8, "price": 0.4}];
+                data["orderType"] = "TIME";
+                data["startVertex"] = 0;
+                data["endVertex"] = 9;
+//                data["receiverId"] = 12;
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/create/11?receiver=" + 12,
+                    data: JSON.stringify(data),
+                    dataType: "json"
+                }).done(function (data) {
+                    alert(data);
+                });
+            }
+        }
+
+        var client = new BrowserClient();
+        client.mainPageButton.onclick = function() {
+            client.getMainPage();
+        };
+        client.sendOrderButton.onclick = function() {
+            client.createOrder();
+        };
+    });
+
+</script>
+</body>
+</html>

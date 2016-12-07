@@ -11,7 +11,7 @@ import java.util.concurrent.Callable;
 /**
  * Created by akhtyamovpavel on 01.12.16.
  */
-public class OrderCreateTask implements Callable<Route> {
+public class OrderCreateTask implements Callable<Order> {
     private Order order;
 
     public OrderCreateTask(Order order) {
@@ -19,7 +19,7 @@ public class OrderCreateTask implements Callable<Route> {
     }
 
     @Override
-    public Route call() {
+    public Order call() {
         OptimalSolver solver = null;
         if (order.getOrderType() == OrderType.TIME) {
             solver = new OptimalTimeSolver();
@@ -34,13 +34,13 @@ public class OrderCreateTask implements Callable<Route> {
         route.setOrder(order);
         order.setOrderStatus(OrderStatus.WAIT_CHANGE);
 
-        Session session = HibernateSessionFactory.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        session.save(order);
-        session.save(route);
-
-        session.getTransaction().commit();
-        return route;
+        return order;
+//        Session session = HibernateSessionFactory.getSessionFactory().getCurrentSession();
+//        session.beginTransaction();
+//        session.save(order);
+//        session.save(route);
+//
+//        session.getTransaction().commit();
     }
 
 }

@@ -4,11 +4,9 @@ import org.springframework.data.domain.Sort;
 import ru.fivt.dostavimvse.models.Leg;
 import ru.fivt.dostavimvse.models.Order;
 import ru.fivt.dostavimvse.models.Route;
+import ru.fivt.dostavimvse.models.RouteLeg;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by akhtyamovpavel on 30.11.16.
@@ -87,51 +85,76 @@ public class OptimalTimeSolver implements OptimalSolver {
 
         for (Leg leg: legs) {
             int legStartVertex = leg.getStartVertex();
-            legsMatrix.get(legStartVertex).set(leg.getEndVertex(), leg);
+            legsMatrix.get(legStartVertex).add(leg);
         }
 
-        ArrayList<Double> distances = new ArrayList<>(maxVertex + 1);
-        ArrayList<Boolean> usedVertices = new ArrayList<>(maxVertex + 1);
+        Double[] distances = new Double[maxVertex + 1];
+        Boolean[] usedVertices = new Boolean[maxVertex + 1];
+//        ArrayList<Boolean> usedVertices = new ArrayList<>(maxVertex + 1);
         for (int index = 0; index <= maxVertex; ++index) {
             if (index != startVertex) {
-                distances.set(index, Double.MAX_VALUE);
+                distances[index] = Double.MAX_VALUE;
             } else {
-                distances.set(index, 0.0);
+                distances[index] = 0.0;
             }
-            usedVertices.set(index, false);
+            usedVertices[index] = false;
         }
 
         TreeSet<SortVertex> sortVertices = new TreeSet<>();
         sortVertices.add(new SortVertex(startVertex, 0.0));
-        usedVertices.set(startVertex, true);
+        usedVertices[startVertex] = true;
 
-        ArrayList<Leg> answerLegs = new ArrayList<>(maxVertex + 1);
+        ArrayList<Leg> answerLegs = new ArrayList<>();
+        for (int index = 0; index <= maxVertex; ++index) {
+            answerLegs.add(null);
+        }
 
         for (int index = 0; index <= maxVertex; ++index) {
             SortVertex topVertex = sortVertices.first();
             int currentVertex = topVertex.getFromVertex();
             sortVertices.remove(topVertex);
-            usedVertices.set(currentVertex, true);
+            usedVertices[currentVertex] = true;
 
             for (Leg outputLeg: legsMatrix.get(currentVertex)) {
                 double cost = getLegCost(order, outputLeg);
-                double updatedCost = distances.get(outputLeg.getStartVertex()) + cost;
-                double outputCost = distances.get(outputLeg.getEndVertex());
+                double updatedCost = distances[outputLeg.getStartVertex()] + cost;
+                double outputCost = distances[outputLeg.getEndVertex()];
                 int toVertex = outputLeg.getEndVertex();
-                if (usedVertices.get(toVertex) && updatedCost + cost + SortVertex.EPS < outputCost) {
+                if (cost == Double.MAX_VALUE) {
+                    continue;
+                }
+                if (!usedVertices[toVertex] && updatedCost + cost + SortVertex.EPS < outputCost) {
 
                     sortVertices.remove(new SortVertex(outputLeg.getEndVertex(), outputCost));
-                    distances.set(toVertex, updatedCost);
+                    distances[toVertex] = updatedCost;
                     sortVertices.add(new SortVertex(outputLeg.getEndVertex(), updatedCost));
                     answerLegs.set(toVertex, outputLeg);
                 }
             }
         }
 
+
+
         Route route = new Route();
+
+        if (distances[endVertex] == Double.MAX_VALUE) {
+            return null;
+        }
+        ArrayList<RouteLeg> routeWay = new ArrayList<>();
+
+        int currentVertex = endVertex;
+        while (currentVertex != startVertex) {
+            RouteLeg leg = new RouteLeg();
+            Leg answerLeg = answerLegs.get(currentVertex);
+            leg.setLeg(answerLeg);
+            routeWay.add(leg);
+            leg.setRoute(route);
+            currentVertex = answerLeg.getStartVertex();
+        }
 
 
         // TODO: write this code in normal way
+        route.setRouteLegs(new HashSet<>(routeWay));
         return route;
     }
 

@@ -5,14 +5,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import ru.fivt.dostavimvse.models.Order;
 import ru.fivt.dostavimvse.models.OrderStatus;
+import ru.fivt.dostavimvse.models.Product;
+import ru.fivt.dostavimvse.models.Route;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Created by akhtyamovpavel on 01.12.16.
@@ -56,11 +55,22 @@ public class Operator {
         //TODO: On startup take all legs from normal DateTime
     }
 
-    void createRoute(Order order) {
+    Order createRoute(Order order) throws ExecutionException, InterruptedException {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.beginTransaction();
 
         order.setStartDate(LocalDateTime.now());
+        Future<Order> newRoute = createOrderExecutor.submit(new OrderCreateTask(order));
+
+        Order updatedOrder = newRoute.get();
+
+        for (Product product: updatedOrder.getProducts()) {
+            product.setOrder(updatedOrder);
+        }
+        session.save(updatedOrder);
+        session.getTransaction().commit();
+        session.close();
+        return updatedOrder;
 //        order.setStatus(OrderStatus.WAIT_CREATE);
     }
 

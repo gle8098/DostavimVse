@@ -1,8 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>DostavimVse</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
+
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/1.9.1/jquery.min.js"
+            th:src="@{/webjars/jquery/1.9.1/jquery.min.js}"></script>
 </head>
 <body>
 
@@ -22,11 +28,11 @@
         BrowserClient.prototype.requestOrderButton = document.getElementById("create-order-button");
 
         BrowserClient.prototype.getOrderHistory = function () {
-            window.location = '/orders/5';
+            window.location = '/orders/11';
         };
 
         BrowserClient.prototype.requestOrder = function () {
-            window.location = '/create/';
+            window.location = '/create/11';
         };
     }
 
