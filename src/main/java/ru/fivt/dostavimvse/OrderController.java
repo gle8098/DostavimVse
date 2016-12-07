@@ -28,10 +28,11 @@ public class OrderController {
             }
             order.setClient(client);
             order.setReceiver(receiver);
-            Operator.getInstance().createRoute(order);
+            Order updatedOrder = Operator.getInstance().createRoute(order);
             JSONObject response = new JSONObject();
-            response.append("message", "Route created");
+            response.append("message", "Order created");
             response.append("code", 200);
+            response.append("orderId", updatedOrder.getId());
             return response.toString();
 //            return "Route created";
         } catch (Exception e) {

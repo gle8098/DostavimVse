@@ -16,41 +16,30 @@
 <h1>Создать заказ</h1>
 <!--/*@thymesVar id="order" type="ru.fivt.dostavimvse.models.Order"*/-->
 <div class="order-info">
+    <p style="display: none;" id="clientid" th:text="${id}"></p>
     <button id="main-page">На главную</button>
-    <!--<div class="order_start">-->
-        <!--Создан: <span th:text="${order.getStartDate()}"></span>-->
-    <!--</div>-->
-    <!--<div class="order_start_vertex">-->
-        <!--Начало: <span th:text="${order.getStartVertex()}"></span>-->
-    <!--</div>-->
 
-    <!--<div class="order_end_vertex">-->
-        <!--Конец: <span th:text="${order.getEndVertex()}"></span>-->
-    <!--</div>-->
+    <div>
+        <label for="receiver-id">id получателя</label>
+        <input type="text" id="receiver-id"/>
+    </div>
 
-    <!--<div class="order_products">-->
-        <!--Продукты:-->
-        <!--<div th:each="product: ${order.getProducts()}">-->
-            <!--<div class="product">-->
-                <!--Вес: <span th:text="${product.getWeight()}"></span>-->
-                <!--Цена: <span th:text="${product.getPrice()}"></span>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div>-->
-            <!--Данные о заказе-->
-            <!--<div class="route">-->
-                <!--<div class="route_leg">-->
-                    <!--<div th:each="routeLeg: ${order.getRoute().getRouteLegs()}">-->
-                        <!--Время начала: <span th:text="${routeLeg.getStartTime()}"></span>-->
-                        <!--Время конца: <span th:text="${routeLeg.getEndTime()}"></span>-->
-                        <!--Начало: <span th:text="${routeLeg.getLeg().getStartVertex()}"></span>-->
-                        <!--Конец: <span th:text="${routeLeg.getLeg().getEndVertex()}"></span>-->
-                    <!--</div>-->
+    <div>
+        <label for="start-vertex-id">Стартовая вершина</label>
+        <input type="text" id="start-vertex-id" />
+    </div>
+    <div>
+        <label for="end-vertex-id">Конечная вершина</label>
+        <input type="text" id="end-vertex-id" />
+    </div>
 
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
+
+    <div>
+        <select>
+            <option th:each="orderType: ${orderTypes}" th:value="${orderType.toString()}" th:text="${orderType.toString()}">Test</option>
+        </select>
+    </div>
+
 
     <button id="send-order">Отправить</button>
 </div>
@@ -74,6 +63,8 @@
                 data["startVertex"] = 0;
                 data["endVertex"] = 9;
 //                data["receiverId"] = 12;
+                var clientId = document.getElementById("clientid").innerText;
+                alert(clientId);
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
@@ -81,7 +72,11 @@
                     data: JSON.stringify(data),
                     dataType: "json"
                 }).done(function (data) {
-                    alert(data);
+                    if (data.code != 200) {
+                        alert(data.message);
+                    } else {
+                        window.location = "/order/" + data.orderId[0];
+                    }
                 });
             }
         }

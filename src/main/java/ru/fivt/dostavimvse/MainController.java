@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.fivt.dostavimvse.models.Client;
 import ru.fivt.dostavimvse.models.Order;
+import ru.fivt.dostavimvse.models.OrderType;
 
 /**
  * Created by akhtyamovpavel on 30.11.16.
@@ -55,6 +56,9 @@ public class MainController {
 
     @RequestMapping(value = "/create/{id}", method = RequestMethod.GET)
     public ModelAndView getCreateOrderPage(@PathVariable("id") int clientId) {
-        return new ModelAndView("createorderpage");
+        ModelAndView mav = new ModelAndView("createorderpage");
+        mav.addObject("clientId", clientId);
+        mav.addObject("orderTypes", OrderType.values());
+        return mav;
     }
 }

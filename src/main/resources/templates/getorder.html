@@ -21,11 +21,15 @@
         Создан: <span th:text="${order.getStartDate()}"></span>
     </div>
     <div class="order_start_vertex">
-        Начало: <span th:text="${order.getStartVertex()}"></span>
+        Начальная вершина: <span th:text="${order.getStartVertex()}"></span>
     </div>
 
     <div class="order_end_vertex">
-        Конец: <span th:text="${order.getEndVertex()}"></span>
+        Конечная вершина: <span th:text="${order.getEndVertex()}"></span>
+    </div>
+
+    <div class="order_status">
+        Статус заказа: <span th:text="${order.getOrderStatus().toString()}"></span>
     </div>
 
     <div class="order_products">
@@ -36,6 +40,7 @@
                 Цена: <span th:text="${product.getPrice()}"></span>
             </div>
         </div>
+
         <div>
             Данные о заказе
             <div class="route">

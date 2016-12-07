@@ -8,6 +8,7 @@ import ru.fivt.dostavimvse.models.OrderStatus;
 import ru.fivt.dostavimvse.models.Product;
 import ru.fivt.dostavimvse.models.Route;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -52,7 +53,6 @@ public class Operator {
         }
 
         session.close();
-        //TODO: On startup take all legs from normal DateTime
     }
 
     Order createRoute(Order order) throws ExecutionException, InterruptedException {
