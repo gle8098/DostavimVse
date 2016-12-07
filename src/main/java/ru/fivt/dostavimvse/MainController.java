@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.fivt.dostavimvse.models.Client;
 import ru.fivt.dostavimvse.models.Order;
+import ru.fivt.dostavimvse.models.OrderStatus;
 import ru.fivt.dostavimvse.models.OrderType;
 
 /**
@@ -41,6 +42,8 @@ public class MainController {
             if (order != null) {
                 ModelAndView modelAndView = new ModelAndView("getorder");
                 modelAndView.addObject("order", order);
+                modelAndView.addObject("clientId", clientId);
+                modelAndView.addObject("order_ready", OrderStatus.READY);
                 return modelAndView;
             } else {
                 return new ModelAndView("errororder");

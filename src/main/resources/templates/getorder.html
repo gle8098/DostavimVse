@@ -18,6 +18,8 @@
 
 <!--/*@thymesVar id="order" type="ru.fivt.dostavimvse.models.Order"*/-->
 <div class="order-info">
+    <p style="display: none;" id="order-id" th:text="${order.getId()}"></p>
+    <p style="display: none;" id="receiver-id" th:text="${order.getReceiver().getId()}"></p>
     <div class="order_id">
         Заказ <span th:text="${order.getId()}"></span>
     </div>
@@ -34,6 +36,10 @@
 
     <div class="order_status">
         Статус заказа: <span th:text="${order.getOrderStatus().toString()}"></span>
+    </div>
+
+    <div class="order_receivcer">
+        Получатель: <span th:text="${order.getReceiver().getId()}"></span>
     </div>
 
     <div class="order_products">
@@ -60,16 +66,40 @@
             </div>
         </div>
     </div>
+    <!---->
+    <button th:if="${order.getReceiver().getId() == clientId and order.getOrderStatus().toString().equals('READY')}" id="receive-order-button">
+        Получить заказ!
+    </button>
 </div>
 
 <script>
     function BrowserClient() {
 
         BrowserClient.prototype.getMainPageButton = document.getElementById("main-page");
+        BrowserClient.prototype.receiveOrderButton = document.getElementById("receive-order-button");
 
         BrowserClient.prototype.getMainPage = function () {
             window.location = '/';
         };
+        BrowserClient.prototype.receiveOrder = function () {
+            var receiverId = document.getElementById("receiver-id").innerText;
+            var orderId = document.getElementById("order-id").innerText;
+            var amp = "&amp;";
+            console.log(amp.length);
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/receive?receiverId=" + receiverId + amp[0] + "orderId=" + orderId,
+                dataType: "json"
+            }).done(function (data) {
+                if (data.code != 200) {
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                    location.reload();
+                }
+            });
+        }
     }
 
     var client = new BrowserClient();
@@ -77,6 +107,9 @@
     client.getMainPageButton.onclick = function() {
         client.getMainPage();
     };
+    client.receiveOrderButton.onclick = function() {
+        client.receiveOrder();
+    }
 </script>
 </body>
 </html>

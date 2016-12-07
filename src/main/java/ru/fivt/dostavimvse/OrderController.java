@@ -43,4 +43,35 @@ public class OrderController {
             return response.toString();
         }
     }
+
+    @RequestMapping(value = "/receive", method = RequestMethod.POST)
+    public String receiverOrder(@RequestParam(name="receiverId") Integer receiverId,
+                                @RequestParam(name="orderId") Integer orderId) {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        Client receiver = session.get(Client.class, receiverId);
+        Order order = session.get(Order.class, orderId);
+        if (receiver == null || order == null) {
+            JSONObject response = new JSONObject();
+            response.append("code", 400);
+            response.append("message", "Невозможно получить заказ: несанкционированный вход!");
+            return response.toString();
+        }
+        Order receivedOrder = receiver.receiveOrder(order);
+        try {
+            session.saveOrUpdate(receivedOrder);
+            session.beginTransaction().commit();
+            session.close();
+            JSONObject response = new JSONObject();
+            response.append("code", 200);
+            response.append("message", "Заказ получен! Страница будет обновлена для отображения нового статуса!");
+            return response.toString();
+        } catch (Exception e) {
+            JSONObject response = new JSONObject();
+            response.append("code", 400);
+            response.append("message", "Заказ не может быть получен! Повторите позже!");
+            return response.toString();
+        }
+    }
+
 }

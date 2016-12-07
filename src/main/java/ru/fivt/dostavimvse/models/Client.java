@@ -2,10 +2,8 @@ package ru.fivt.dostavimvse.models;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Created by akhtyamovpavel on 29.11.16.
@@ -35,7 +33,7 @@ public class Client implements Serializable {
     }
 
     public Order receiveOrder(Order order) {
-        if (order.getReceiver().getId().equals(getId())) {
+        if (order.getReceiver().getId().equals(getId()) && order.getOrderStatus() == OrderStatus.READY) {
             order.setOrderStatus(OrderStatus.COMPLETED);
             return order;
         } else {
@@ -44,8 +42,14 @@ public class Client implements Serializable {
     }
 
     public Order getOrder(Integer id) {
-        return orders.stream().filter((Order order) ->
-            order.getId().equals(id)
+        Optional<Order> firstStream = orders.stream().filter((Order order) ->
+                order.getId().equals(id)
+        ).findFirst();
+        if (firstStream.isPresent()) {
+            return firstStream.get();
+        }
+        return receiverOrders.stream().filter((Order order) ->
+                order.getId().equals(id)
         ).findFirst().get();
     }
 
