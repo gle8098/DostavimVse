@@ -22,16 +22,16 @@ public class Client implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "client", cascade = CascadeType.ALL)
     private Set<Order> orders = new HashSet<>();
 
+    public Set<Order> getReceiverOrders() {
+        return receiverOrders;
+    }
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "receiver", cascade = CascadeType.ALL)
-    private Set<Order> directedOrders = new HashSet<>();
+    private Set<Order> receiverOrders = new HashSet<>();
 
 
     public Set<Order> getOrders() {
         return this.orders;
-    }
-
-    public void requestCreateOrder(Order order) {
-
     }
 
     public Order receiveOrder(Order order) {

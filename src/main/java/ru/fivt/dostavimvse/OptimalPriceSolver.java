@@ -156,7 +156,6 @@ public class OptimalPriceSolver implements OptimalSolver {
         }
 
 
-        // TODO: write this code in normal way
         route.setRouteLegs(new HashSet<>(routeWay));
         return route;
     }

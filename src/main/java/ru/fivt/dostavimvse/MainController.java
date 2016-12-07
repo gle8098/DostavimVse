@@ -34,9 +34,13 @@ public class MainController {
 
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             Order order = session.get(Order.class, orderId);
-            ModelAndView modelAndView = new ModelAndView("getorder");
-            modelAndView.addObject("order", order);
-            return modelAndView;
+            if (order != null) {
+                ModelAndView modelAndView = new ModelAndView("getorder");
+                modelAndView.addObject("order", order);
+                return modelAndView;
+            } else {
+                return new ModelAndView("errororder");
+            }
         } catch (Exception e) {
             ModelAndView modelAndView = new ModelAndView("errororder");
             return modelAndView;
