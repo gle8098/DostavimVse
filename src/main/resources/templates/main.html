@@ -34,11 +34,11 @@
         BrowserClient.prototype.gerOrderButton = document.getElementById("get-order-button");
 
         BrowserClient.prototype.getOrderHistory = function () {
-            window.location = '/orders/11';
+            window.location = '/orders/1';
         };
 
         BrowserClient.prototype.requestOrder = function () {
-            window.location = '/create/11';
+            window.location = '/create/1';
         };
 
         BrowserClient.prototype.getOrder = function() {
@@ -47,7 +47,7 @@
                 alert("Введите число!");
                 return;
             }
-            window.location = '/order/' + value + '?clientId=11';
+            window.location = '/order/' + value + '?clientId=1';
         }
     }
 

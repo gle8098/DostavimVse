@@ -77,7 +77,6 @@
 
             BrowserClient.prototype.createOrder = function () {
                 var data = {};
-//                data["products"] = [{"weight": 0.8, "price": 0.4}];
                 data["orderType"] = document.getElementById("order-type").value;
                 data["startVertex"] = document.getElementById("start-vertex-id").value;
                 data["endVertex"] = document.getElementById("end-vertex-id").value;
@@ -104,14 +103,14 @@
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
-                    url: "/create/11?receiver=" + document.getElementById("receiver-id").value,
+                    url: "/create/" + clientId + "?receiver=" + document.getElementById("receiver-id").value,
                     data: JSON.stringify(data),
                     dataType: "json"
                 }).done(function (data) {
                     if (data.code != 200) {
                         alert(data.message);
                     } else {
-                        window.location = "/order/" + data.orderId[0] + "?clientId=11";
+                        window.location = "/order/" + data.orderId[0] + "?clientId=" + clientId;
                     }
                 });
             };

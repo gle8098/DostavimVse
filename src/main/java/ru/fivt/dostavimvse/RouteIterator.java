@@ -14,7 +14,6 @@ import java.util.Set;
 
 public class RouteIterator implements Iterator<RouteLeg>{
     private Set<RouteLeg> routeLegs;
-//    private RouteLeg routeLeg;
     private int currentVertex;
     private int endVertex;
 

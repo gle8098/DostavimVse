@@ -71,7 +71,6 @@ public class Operator {
         session.getTransaction().commit();
         session.close();
         return updatedOrder;
-//        order.setStatus(OrderStatus.WAIT_CREATE);
     }
 
     public void changeRouteLeg(Order order) {

@@ -35,12 +35,6 @@ public class OrderCreateTask implements Callable<Order> {
         order.setOrderStatus(OrderStatus.WAIT_CHANGE);
 
         return order;
-//        Session session = HibernateSessionFactory.getSessionFactory().getCurrentSession();
-//        session.beginTransaction();
-//        session.save(order);
-//        session.save(route);
-//
-//        session.getTransaction().commit();
     }
 
 }

@@ -69,11 +69,28 @@
 		</dependency>
 	</dependencies>
 
+	<profiles>
+	<profile>
+		<id>init-base</id>
+		<properties>
+			<spring.boot.mainclass>Main</spring.boot.mainclass>
+		</properties>
+	</profile>
+	<profile>
+		<id>web-app</id>
+		<properties>
+			<spring.boot.mainclass>ru.fivt.dostavimvse.DostavimvseApplication</spring.boot.mainclass>
+		</properties>
+	</profile>
+	</profiles>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>${spring.boot.mainclass}</mainClass>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

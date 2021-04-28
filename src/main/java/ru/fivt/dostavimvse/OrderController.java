@@ -35,7 +35,6 @@ public class OrderController {
             response.append("code", 200);
             response.append("orderId", updatedOrder.getId());
             return response.toString();
-//            return "Route created";
         } catch (Exception e) {
             JSONObject response = new JSONObject();
             response.append("message", "Error happened");

@@ -37,7 +37,7 @@ public class RouteLeg {
     @JoinColumn(name = "LEG_ID", nullable = false)
     private Leg leg;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ROUTE_ID", nullable = false)
     private Route route;
 
